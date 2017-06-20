@@ -1,9 +1,0 @@
-This software include steps to search the distributors and send the mail.
-- only support windows
-- search distributors
-- sending mails
-
-How to use:
-- maintain config.properties file
-- Open command console - WIN + R
-- use commands "java -jar DistributorApp.jar"
