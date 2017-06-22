@@ -19,6 +19,7 @@ public class Inital {
 
 	private static Properties properties = new Properties();
 
+	@SuppressWarnings("unused")
 	public Inital() {
 		LOG log = new LOG();
 		Result resultLog = new Result();

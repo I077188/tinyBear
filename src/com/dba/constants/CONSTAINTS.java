@@ -23,9 +23,4 @@ public class CONSTAINTS {
 		driver = inital.initalExplorerDriver();
 	}
 
-	public static void end() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

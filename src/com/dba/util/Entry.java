@@ -55,7 +55,7 @@ public class Entry {
 		 */
 		
 		
-		CONSTAINTS.end();
+		Close.closeApp();
 	}
 
 }
