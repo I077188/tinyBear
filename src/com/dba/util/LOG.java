@@ -1,24 +1,38 @@
 package com.dba.util;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class LOG {
 
-	private static Logger logger;
-	private static FileHandler fh;
+	private static BufferedWriter bWriter;
 
 	public LOG() {
-		String logPath = ".\\src\\log\\ExecutionLog.log";
-
-		logger = Logger.getLogger("DistributorApp");
+		String seprator = "/";
+		if (!File.separator.equals("/"))
+			seprator = "\\";
+		String currentPath = "";
 		try {
-			fh = new FileHandler(logPath);
-			logger.addHandler(fh);
+			currentPath = new File(".").getCanonicalPath();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
-			fh.setFormatter(new SimpleFormatter());
+		String executeLogPath = currentPath + seprator + "log" + seprator + "ExecutionLog.log";
+
+		System.out.println(executeLogPath);
+
+		File executionLog = new File(executeLogPath);
+		try {
+			if (executionLog.exists()) {
+				executionLog.delete();
+			}
+			executionLog.createNewFile();
+			FileWriter fw = new FileWriter(executionLog);
+			bWriter = new BufferedWriter(fw);
 		} catch (SecurityException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -27,18 +41,47 @@ public class LOG {
 	}
 
 	public static void info(String message) {
-		logger.info("[Infor]\t\t" + message + ".");
+		try {
+			bWriter.write("[Infor]\t\t" + message + ".");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void debug(String message) {
-		logger.info("[Debug]\t\t" + message + ".");
+		try {
+			bWriter.write("[Debug]\t\t" + message + ".");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void error(String exceptionType, String message) {
-		logger.severe("[Error]\t\t" + "<" + exceptionType + ">\n" + message + ".");
+		try {
+			bWriter.write("[Error]\t\t" + "<" + exceptionType + ">\n" + message + ".");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void warn(String message) {
-		logger.warning("[Warn]\t\t" + message + ".");
+		try {
+			bWriter.write("[Warn]\t\t" + message + ".");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void close() {
+		try {
+			bWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

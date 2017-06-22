@@ -16,12 +16,13 @@ import com.dba.constants.CONSTAINTS;
 
 public class Inital {
 
-	LOG log = new LOG();
-	Result resultLog = new Result();
 
 	private static Properties properties = new Properties();
 
 	public Inital() {
+		LOG log = new LOG();
+		Result resultLog = new Result();
+		
 		Result.info("Couldn't find mail box information in following web sites!");
 
 		try {
@@ -64,17 +65,14 @@ public class Inital {
 		// get system version
 		String osType = System.getProperty("os.name");
 		boolean isWin = osType.toLowerCase().startsWith("windows");
-		System.out.println(CONSTAINTS.Separator);
-
+		
 		String requireFilePath = "." + CONSTAINTS.Separator + "src" + CONSTAINTS.Separator + "com"
 				+ CONSTAINTS.Separator + "dba" + CONSTAINTS.Separator + "requireFile" + CONSTAINTS.Separator;
-
+		// required file path 
 		String geckoDriver = (isWin) ? "geckodriver.exe" : "geckodriver";
 		String chromeDriver = (isWin) ? "chromedriver.exe" : "chromedriver";
 		String fireFoxExe = (isWin) ? "firefox.exe" : "firefox";
 		
-		// system properties setting
-		System.setProperty("webdriver.gecko.driver", requireFilePath + geckoDriver);
 
 		String explorerType = properties.getProperty("explorerType").toLowerCase();
 
@@ -82,14 +80,15 @@ public class Inital {
 			System.setProperty("webdriver.chrome.driver", requireFilePath + chromeDriver);
 			return new ChromeDriver();
 		} else {
-			String firefoxPath = properties.getProperty("FirefoxInstallPath");
-			String firefoxInstallPath = (isWin) ? firefoxPath : (firefoxPath + CONSTAINTS.Separator);
-			System.out.println(firefoxInstallPath);
-			LOG.debug(firefoxPath);
-			LOG.debug(firefoxInstallPath);
-			String firefoxFullPath = (osType.toLowerCase().startsWith("windows")) ? (firefoxInstallPath.replace("\\", "\\\\") + fireFoxExe):(firefoxInstallPath + fireFoxExe);
+			// system properties setting
+			System.setProperty("webdriver.gecko.driver", requireFilePath + geckoDriver);
 			
-			System.out.println(firefoxFullPath);
+			String firefoxPathValue = properties.getProperty("FirefoxInstallPath");
+			String firefoxPath = firefoxPathValue.endsWith(CONSTAINTS.Separator)?firefoxPathValue:(firefoxPathValue + CONSTAINTS.Separator);
+
+			String firefoxFullPath = (isWin) ? (firefoxPath.replace("\\", "\\\\") + fireFoxExe):(firefoxPath + fireFoxExe);
+			
+			LOG.debug(firefoxFullPath);
 			
 			File pathToBinary = null;
 			if (isWin) {

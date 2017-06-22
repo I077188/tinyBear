@@ -11,17 +11,28 @@ public class Result {
 
 	public Result() {
 
-		String logPath = ".\\log\\ResultLog.log";
+		String seprator = "/";
+		if (!File.separator.equals("/"))
+			seprator = "\\";
 
-		File resultLog = new File(logPath);
+		String currentPath = "";
+		try {
+			currentPath = new File(".").getCanonicalPath();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		String resultLogPath = currentPath + seprator + "log" + seprator + "ResultLog.log";
+
+		System.out.println(resultLogPath);
+		File resultLog = new File(resultLogPath);
 
 		try {
-			if (!resultLog.exists()) {
-					resultLog.createNewFile();
-			} else {
+			if (resultLog.exists()) {
 				resultLog.delete();
-				resultLog.createNewFile();
 			}
+			resultLog.createNewFile();
 
 			FileWriter fw = new FileWriter(resultLog);
 			bWriter = new BufferedWriter(fw);
@@ -38,8 +49,8 @@ public class Result {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void close(){
+
+	public static void close() {
 		try {
 			bWriter.close();
 		} catch (IOException e) {
