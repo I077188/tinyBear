@@ -54,8 +54,6 @@ public class Entry {
 		 * Loop customers list to sending a mail
 		 */
 		
-		
-		Close.closeApp();
 	}
 
 }
