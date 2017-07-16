@@ -35,6 +35,7 @@
 	<classpathentry kind="lib" path="lib/lib/xercesImpl-2.11.0.jar"/>
 	<classpathentry kind="lib" path="lib/lib/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="lib" path="lib/client-combined-3.4.0-nodeps.jar"/>
-	<classpathentry kind="lib" path="C:/SEL/tinyBear/other/javax.mail.jar"/>
+	<classpathentry kind="lib" path="lib/selenium-server-standalone-3.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
