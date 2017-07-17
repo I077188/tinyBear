@@ -12,15 +12,29 @@ public class CONSTAINTS {
 	public static String searchEngine;
 	public static int page;
 	public static WebDriver driver;
+	public static String senderUserName;
+	public static String senderUserMail;
+	public static String senderUserPass;
+	public static String senderUserSmtpHost;
+	public static String senderUserSmtpPort;
+	public static String mailTitle;
 	public static String Separator = File.separator;
-	
+
 	public static void inital() {
 		Inital inital = new Inital();		
-		searchContent = inital.initialSearchContent();
-		countries = inital.initialCountries();
-		page =inital.initialpage();
-		searchEngine = inital.initialEngine();
-		driver = inital.initalExplorerDriver();
+//		searchContent = inital.initialSearchContent();
+//		countries = inital.initialCountries();
+//		page =inital.initialpage();
+//		searchEngine = inital.initialEngine();
+//		driver = inital.initalExplorerDriver();
+		
+		senderUserName = inital.initialSenderName();
+		senderUserMail = inital.initialSenderMail();
+		senderUserPass = inital.initialSenderPass();
+		senderUserSmtpHost = inital.initialSenderSmtpHost();
+		senderUserSmtpPort = inital.initialSenderSmtpPort();
+		
+		mailTitle = inital.initialMailTitle();
 	}
 
 }

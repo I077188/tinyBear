@@ -28,7 +28,7 @@ public class Entry {
 
 		SearchImpl sImpl = new SearchImpl();
 
-//		List<String> customerURLs = sImpl.getCustomersURLs();
+		// List<String> customerURLs = sImpl.getCustomersURLs();
 		// for testing
 		 List<String> customerURLs = new ArrayList<String>();
 		 customerURLs.add("http://www.designeryarns.uk.com/");

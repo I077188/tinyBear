@@ -111,5 +111,37 @@ public class Inital {
 	public String initialSeparator(){
 		return File.separator;
 	}
+	
+	// mail sending function
+	public String initialSenderName(){
+		if (properties == null)
+			return null;
+		return properties.getProperty("senderUserName");
+	}
+	public String initialSenderPass(){
+		if (properties == null)
+			return null;
+		return properties.getProperty("senderUserPass");
+	}
+	public String initialSenderMail(){
+		if (properties == null)
+			return null;
+		return properties.getProperty("senderUserMail");
+	}
+	public String initialSenderSmtpPort(){
+		if (properties == null)
+			return null;
+		return properties.getProperty("senderUserSmtpPort");
+	}
+	public String initialSenderSmtpHost(){
+		if (properties == null)
+			return null;
+		return properties.getProperty("senderUserSmtpHost");
+	}
+	public String initialMailTitle(){
+		if (properties == null)
+			return null;
+		return properties.getProperty("mailTitle");
+	}
 
 }
