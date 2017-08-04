@@ -8,7 +8,6 @@ import java.util.Set;
 import com.dba.constants.CONSTAINTS;
 import com.dba.data.Customer;
 import com.dba.search.impl.SearchImpl;
-import com.dba.util.Result;
 
 public class Entry {
 	public Entry() {
@@ -48,7 +47,8 @@ public class Entry {
 		}
 
 		for (String mailBox : mailBoxes) {
-			ExecuteLOG.debug(mailBox);
+			Result.info("Following is the mail collect from the search!");
+			Result.info(mailBox);
 		}
 
 		/**
