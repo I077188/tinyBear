@@ -6,10 +6,11 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import com.dba.constants.CONSTAINTS;
 import com.dba.data.Customer;
 import com.dba.search.Search;
-import com.dba.util.LOG;
+import com.dba.util.ExecuteLOG;
 import com.dba.util.Result;
 
 /**
@@ -35,8 +36,9 @@ public class SearchImpl implements Search {
 		this.driver = CONSTAINTS.driver;
 	}
 
+	@Override
 	public List<String> getCustomersURLs() {
-		LOG.info("Get URLs ...");
+		ExecuteLOG.info("Get URLs ...");
 
 		List<String> urlList = new ArrayList<String>();
 
@@ -60,10 +62,10 @@ public class SearchImpl implements Search {
 					String currentUrl = currentUrl_org;
 
 					if (i > 0) {
-						currentUrl = currentUrl_org + "&start=" + i * 10;
-//						LOG.info("Current URL: " + currentUrl);
+						currentUrl = currentUrl_org + "&start=" + (i * 10);
+						// LOG.info("Current URL: " + currentUrl);
 					} else {
-//						LOG.info("Current URL: " + currentUrl);
+						// LOG.info("Current URL: " + currentUrl);
 					}
 
 					driver.get(currentUrl);
@@ -72,11 +74,11 @@ public class SearchImpl implements Search {
 					List<WebElement> list = driver
 							.findElements(By.xpath("//*[@id='vs0p1c0']|//*[@id='rso']//*/h3[@class='r']/a"));
 
-					LOG.info("Page " + (i + 1) + ":\t has found " + list.size() + " records");
+					ExecuteLOG.info("Page " + (i + 1) + ":\t has found " + list.size() + " records");
 
 					for (WebElement welement : list) {
 						String site = welement.getAttribute("href");
-//						LOG.debug(welement.getText() + "-->" + site);
+						// LOG.debug(welement.getText() + "-->" + site);
 
 						urlList.add(site);
 					}
@@ -85,25 +87,28 @@ public class SearchImpl implements Search {
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				LOG.error(e.getClass().toString(), e.getMessage());
+				ExecuteLOG.error(e.getClass().toString(), e.getMessage());
 			}
 
 		}
 
-		LOG.info("Number of URLs is " + urlList.size());
+		ExecuteLOG.info("Number of URLs is " + urlList.size());
 
 		return urlList;
 
 	}
 
+	@Override
 	public List<Customer> getCustomers(List<String> urls) {
-		LOG.info("Get customers ... ");
+		ExecuteLOG.info("Get customers ... ");
 		List<Customer> customers = new ArrayList<Customer>();
 
 		for (int i = 0; i < urls.size(); i++) {
-			LOG.info("------------------" + i + "--------------------");
-			LOG.info(urls.get(i));
-			driver.get(urls.get(i));
+			ExecuteLOG.info("------------------" + i + "--------------------");
+			String url = urls.get(i);
+
+			ExecuteLOG.info(url);
+			driver.get(url);
 			// driver.get("http://www.marrineryarns.com/");
 			// contact -> click
 			try {
@@ -111,15 +116,15 @@ public class SearchImpl implements Search {
 				// information
 				List<WebElement> welist = driver.findElements(By.xpath(
 						"//*[contains(text(),'Email')]/*|//*[contains(text(),'email')]/*|//*[contains(text(),'E-mail')]/*|//*[contains(text(),'E-Mail')]/*|//*[contains(text(),'e-mail')]/*|"
-						// Static web page
-						+"//*[contains(.,'Email')]/a|//*[contains(.,'email')]/a|//*[contains(.,'E-mail')]/a|//*[contains(.,'E-Mail')]/a|//*[contains(.,'e-mail')]/a"));
-				
+								// Static web page
+								+ "//*[contains(.,'Email')]/a|//*[contains(.,'email')]/a|//*[contains(.,'E-mail')]/a|//*[contains(.,'E-Mail')]/a|//*[contains(.,'e-mail')]/a"));
+
 				// if not find whether have contact
-				if (welist == null || welist.size() == 0) {
+				if ((welist == null) || (welist.size() == 0)) {
 					List<WebElement> temptList = new ArrayList<WebElement>();
 
-					List<WebElement> welistContacts = driver.findElements(
-							By.xpath("//*[contains(text(),'contact')]|//*[contains(text(),'Contact')]|//*[contains(text(),'About')]"));
+					List<WebElement> welistContacts = driver.findElements(By.xpath(
+							"//*[contains(text(),'contact')]|//*[contains(text(),'Contact')]|//*[contains(text(),'About')]"));
 
 					if (welistContacts.size() > 0) {
 						for (int j = 0; j < welistContacts.size(); j++) {
@@ -139,13 +144,13 @@ public class SearchImpl implements Search {
 						welist = temptList;
 					}
 				}
-				
-				if(welist.size() == 0)
+
+				if (welist.size() == 0)
 					Result.info(urls.get(i));
 
 				for (int j = 0; j < welist.size(); j++) {
 					String mailbox = welist.get(j).getAttribute("href");
-					LOG.info(mailbox);
+					ExecuteLOG.info(mailbox);
 					Customer c = new Customer();
 					c.setCustomerName("j" + j);
 					c.setMailbox(mailbox);
@@ -155,7 +160,7 @@ public class SearchImpl implements Search {
 				Thread.sleep(3000);
 
 			} catch (InterruptedException e) {
-				LOG.warn("Thread sleeping error.");
+				ExecuteLOG.warn("Thread sleeping error.");
 				continue;
 			}
 
