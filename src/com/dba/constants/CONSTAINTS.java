@@ -38,13 +38,16 @@ public class CONSTAINTS {
 
 	public static void inital() {
 		// create execute log file
-		executeLogFile = new File(currentPath + separator + "log" + separator + "ExecutionLog.log");
-		if (!executeLogFile.exists()) {
-			try {
+		try {
+			executeLogFile = new File(currentPath + separator + "log" + separator + "ExecutionLog.log");
+			if (!executeLogFile.exists()) {
 				executeLogFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				executeLogFile.delete();
+				executeLogFile.createNewFile();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		try {
@@ -56,13 +59,16 @@ public class CONSTAINTS {
 		}
 
 		// create result log file
-		resultLogFile = new File(currentPath + separator + "log" + separator + "ResultLog.log");
-		if (!resultLogFile.exists()) {
-			try {
+		try {
+			resultLogFile = new File(currentPath + separator + "log" + separator + "Result.log");
+			if (!resultLogFile.exists()) {
 				resultLogFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				resultLogFile.delete();
+				resultLogFile.createNewFile();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		try {
@@ -74,6 +80,12 @@ public class CONSTAINTS {
 		}
 
 		Inital inital = new Inital();
+		searchContent = inital.initialSearchContent();
+		countries = inital.initialCountries();
+		driver = inital.initalExplorerDriver();
+		driver.manage().window().maximize();
+		page = inital.initialpage();
+		searchEngine = inital.initialEngine();
 
 		senderUserName = inital.initialSenderName();
 		senderUserMail = inital.initialSenderMail();

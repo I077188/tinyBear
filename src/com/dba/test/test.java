@@ -13,6 +13,8 @@ public class test {
 		ExecuteLOG.info("test, log ------");
 
 		Result.info("test, result----------");
+		
+		CONSTAINTS.driver.get("http://www.google.com");
 
 		System.out.println("test finished!");
 

@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import com.dba.constants.CONSTAINTS;
 import com.dba.data.Customer;
 import com.dba.search.Search;
+import com.dba.util.DriverHelper;
 import com.dba.util.ExecuteLOG;
 import com.dba.util.Result;
 
@@ -29,6 +30,7 @@ public class SearchImpl implements Search {
 	private WebDriver driver;
 
 	public SearchImpl() {
+		ExecuteLOG.info("Search process initilize ... ");
 		this.searchContent = CONSTAINTS.searchContent;
 		this.countries = CONSTAINTS.countries;
 		this.searchEngine = CONSTAINTS.searchEngine;
@@ -48,12 +50,18 @@ public class SearchImpl implements Search {
 				driver.get(searchEngine);
 				Thread.sleep(3000);
 
-				WebElement element = driver.findElement(By.xpath("//input[@name='q']"));
-				element.sendKeys(searchContent + " " + country);
-				Thread.sleep(1000);
+				String inputXpath = "//input[@name='q']";
+				DriverHelper.waitForElementPresent(By.xpath(inputXpath), driver);
 
-				driver.findElement(By.xpath(".//button[@name='btnG']")).click();
-				Thread.sleep(3000);
+				WebElement element = driver.findElement(By.xpath(inputXpath));
+				element.sendKeys(searchContent + " " + country);
+
+				DriverHelper.sendEnter(By.xpath(inputXpath), driver);
+
+				/*
+				 * DriverHelper.waitAndClick(driver,
+				 * By.xpath(".//button[@name='btnG']")); Thread.sleep(3000);
+				 */
 
 				// scan searching results per page
 				String currentUrl_org = driver.getCurrentUrl();
@@ -100,72 +108,80 @@ public class SearchImpl implements Search {
 
 	@Override
 	public List<Customer> getCustomers(List<String> urls) {
+
 		ExecuteLOG.info("Get customers ... ");
 		List<Customer> customers = new ArrayList<Customer>();
 
 		for (int i = 0; i < urls.size(); i++) {
 			ExecuteLOG.info("------------------" + i + "--------------------");
 			String url = urls.get(i);
-
 			ExecuteLOG.info(url);
-			driver.get(url);
-			// driver.get("http://www.marrineryarns.com/");
-			// contact -> click
-			try {
-				// check in the home page whether there is some Email
-				// information
-				List<WebElement> welist = driver.findElements(By.xpath(
-						"//*[contains(text(),'Email')]/*|//*[contains(text(),'email')]/*|//*[contains(text(),'E-mail')]/*|//*[contains(text(),'E-Mail')]/*|//*[contains(text(),'e-mail')]/*|"
-								// Static web page
-								+ "//*[contains(.,'Email')]/a|//*[contains(.,'email')]/a|//*[contains(.,'E-mail')]/a|//*[contains(.,'E-Mail')]/a|//*[contains(.,'e-mail')]/a"));
+//			customers.addAll(getCustomerBasedonURL(url));
+		}
+		return customers;
 
-				// if not find whether have contact
-				if ((welist == null) || (welist.size() == 0)) {
-					List<WebElement> temptList = new ArrayList<WebElement>();
+	}
+	
+	private List<Customer> getCustomerBasedonURL(String url){
+		List<Customer> customers = new ArrayList<Customer>();
+		
+		driver.get(url);
+		
+		try {
+			// check in the home page whether there is some Email information
+			String emailXpath = "//*[contains(text(),'Email')]/*"
+								+ "|//*[contains(text(),'email')]/*"
+								+ "|//*[contains(text(),'E-mail')]/*"
+								+ "|//*[contains(text(),'E-Mail')]/*"
+								+ "|//*[contains(text(),'e-mail')]/*"
+								+ "|//*[contains(.,'Email')]/a"
+								+ "|//*[contains(.,'email')]/a"
+								+ "|//*[contains(.,'E-mail')]/a"
+								+ "|//*[contains(.,'E-Mail')]/a"
+								+ "|//*[contains(.,'e-mail')]/a";
 
-					List<WebElement> welistContacts = driver.findElements(By.xpath(
-							"//*[contains(text(),'contact')]|//*[contains(text(),'Contact')]|//*[contains(text(),'About')]"));
-
-					if (welistContacts.size() > 0) {
-						for (int j = 0; j < welistContacts.size(); j++) {
-							try {
-								welistContacts.get(j).click();
-								Thread.sleep(3000);
-
-								// in the content page check the Email
-								// information
-								List<WebElement> welistContact = driver.findElements(By.xpath(
-										"//*[contains(text(),'Email')]/*|//*[contains(text(),'email')]/*|//*[contains(text(),'E-mail')]/*|//*[contains(text(),'E-Mail')]/*|//*[contains(text(),'e-mail')]/*"));
-								temptList.addAll(welistContact);
-							} catch (Exception e) {
-								continue;
-							}
-						}
-						welist = temptList;
-					}
-				}
-
-				if (welist.size() == 0)
-					Result.info(urls.get(i));
-
-				for (int j = 0; j < welist.size(); j++) {
-					String mailbox = welist.get(j).getAttribute("href");
-					ExecuteLOG.info(mailbox);
-					Customer c = new Customer();
-					c.setCustomerName("j" + j);
-					c.setMailbox(mailbox);
-					customers.add(c);
-				}
-
-				Thread.sleep(3000);
-
-			} catch (InterruptedException e) {
-				ExecuteLOG.warn("Thread sleeping error.");
-				continue;
+			List<WebElement> welist = driver.findElements(By.xpath(emailXpath));
+			
+			// if not find whether have contact
+			if ((welist == null) ||(welist.size() == 0)) { 
+				List<WebElement> temptList = new ArrayList<WebElement>();
+				String contactAboutXpath = "//*[contains(text(),'contact')]"
+										+ "|//*[contains(text(),'Contact')]"
+										+ "|//*[contains(text(),'About')]";
+				 List<WebElement> welistContacts = driver.findElements(By.xpath(contactAboutXpath));
+				
+				 
+				 if (welistContacts.size() > 0) { 
+					 for (int j = 0; j < welistContacts.size(); j++) {
+						 try { 
+							 welistContacts.get(j).click();
+							 Thread.sleep(3000);
+							// in the content page check the Email information
+							 List<WebElement> welistContact = driver.findElements(By.xpath(emailXpath));
+							 temptList.addAll(welistContact);
+						 } catch (Exception e) {
+							 continue; 
+						 }
+					 }
+					 welist = temptList;
+				 }
 			}
-
+			
+			if (welist.size() == 0) 
+				Result.info("XXXXXX\t" + url);
+			
+			for (int j = 0; j < welist.size(); j++) {
+				String mailbox = welist.get(j).getAttribute("href");
+				Result.info("YYYYYY\t" + mailbox);
+				Customer c = new Customer();
+				c.setCustomerName("j" + j);
+				c.setMailbox(mailbox);
+				customers.add(c);
+			}
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			ExecuteLOG.warn("Thread sleeping error.");
 		}
 		return customers;
 	}
-
 }

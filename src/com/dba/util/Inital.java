@@ -20,11 +20,11 @@ public class Inital {
 
 	public Inital() {
 
-		Result.info("Couldn't find mail box information in following web sites!");
-
 		try {
 			FileInputStream inputStream = new FileInputStream(new File("config.properties"));
 			properties.load(inputStream);
+
+			ExecuteLOG.info("Search started...");
 			ExecuteLOG.info(properties.getProperty("countries").toString());
 		} catch (IOException e) {
 			ExecuteLOG.error(e.getClass().toString(), e.getMessage());
