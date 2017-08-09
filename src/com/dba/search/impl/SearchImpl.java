@@ -12,7 +12,6 @@ import com.dba.data.Customer;
 import com.dba.search.Search;
 import com.dba.util.DriverHelper;
 import com.dba.util.ExecuteLOG;
-import com.dba.util.Result;
 
 /**
  * Search function
@@ -116,7 +115,9 @@ public class SearchImpl implements Search {
 			ExecuteLOG.info("------------------" + i + "--------------------");
 			String url = urls.get(i);
 			ExecuteLOG.info(url);
-//			customers.addAll(getCustomerBasedonURL(url));
+			
+			System.out.println("Before get:" + Thread.currentThread().getName());
+			customers.addAll(getCustomerBasedonURL(url));
 		}
 		return customers;
 
@@ -126,7 +127,8 @@ public class SearchImpl implements Search {
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		driver.get(url);
-		
+		System.out.println("getCustomer: " + Thread.currentThread().getName());
+		/*
 		try {
 			// check in the home page whether there is some Email information
 			String emailXpath = "//*[contains(text(),'Email')]/*"
@@ -182,6 +184,7 @@ public class SearchImpl implements Search {
 		} catch (InterruptedException e) {
 			ExecuteLOG.warn("Thread sleeping error.");
 		}
+		*/
 		return customers;
 	}
 }
