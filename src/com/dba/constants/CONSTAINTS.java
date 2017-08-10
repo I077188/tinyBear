@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 import com.dba.util.Inital;
@@ -35,50 +37,9 @@ public class CONSTAINTS {
 	public static PrintWriter exeOut;
 	public static FileWriter resultFw;
 	public static PrintWriter resultOut;
+	public static Logger LOG = LogManager.getLogger("CONSTAINTS.class");
 
 	public static void inital() {
-		// create execute log file
-		try {
-			executeLogFile = new File(currentPath + separator + "log" + separator + "ExecutionLog.log");
-			if (!executeLogFile.exists()) {
-				executeLogFile.createNewFile();
-			} else {
-				executeLogFile.delete();
-				executeLogFile.createNewFile();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			exeFw = new FileWriter(executeLogFile, true);
-			exeBWriter = new BufferedWriter(exeFw);
-			exeOut = new PrintWriter(exeBWriter);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		// create result log file
-		try {
-			resultLogFile = new File(currentPath + separator + "log" + separator + "Result.log");
-			if (!resultLogFile.exists()) {
-				resultLogFile.createNewFile();
-			} else {
-				resultLogFile.delete();
-				resultLogFile.createNewFile();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			resultFw = new FileWriter(resultLogFile, true);
-			resultBWriter = new BufferedWriter(resultFw);
-			resultOut = new PrintWriter(resultBWriter);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		Inital inital = new Inital();
 		searchContent = inital.initialSearchContent();
 		countries = inital.initialCountries();

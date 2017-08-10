@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="30">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS}  %msg%xEx%n" />
+		</Console>
+		
+		<RollingFile name="CONSTAINTS" fileName="log/CONSTAINTS.log"
+			filePattern="log/$${date:yyyy-MM}/log/CONSTAINTS.log" append="true">
+			<ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="[%d{HH:mm:ss:SSS}]  %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1" />
+		</RollingFile>
+
+	</Appenders>
+	
+	<Loggers>
+		<Root level="all">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="CONSTAINTS"/>
+			
+		</Root>
+	</Loggers>
+</Configuration>

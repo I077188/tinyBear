@@ -11,7 +11,6 @@ import com.dba.constants.CONSTAINTS;
 import com.dba.data.Customer;
 import com.dba.search.Search;
 import com.dba.util.DriverHelper;
-import com.dba.util.ExecuteLOG;
 
 /**
  * Search function
@@ -29,7 +28,7 @@ public class SearchImpl implements Search {
 	private WebDriver driver;
 
 	public SearchImpl() {
-		ExecuteLOG.info("Search process initilize ... ");
+		CONSTAINTS.LOG.info("Search process initilize ... ");
 		this.searchContent = CONSTAINTS.searchContent;
 		this.countries = CONSTAINTS.countries;
 		this.searchEngine = CONSTAINTS.searchEngine;
@@ -39,7 +38,7 @@ public class SearchImpl implements Search {
 
 	@Override
 	public List<String> getCustomersURLs() {
-		ExecuteLOG.info("Get URLs ...");
+		CONSTAINTS.LOG.info("Get URLs ...");
 
 		List<String> urlList = new ArrayList<String>();
 
@@ -81,7 +80,7 @@ public class SearchImpl implements Search {
 					List<WebElement> list = driver
 							.findElements(By.xpath("//*[@id='vs0p1c0']|//*[@id='rso']//*/h3[@class='r']/a"));
 
-					ExecuteLOG.info("Page " + (i + 1) + ":\t has found " + list.size() + " records");
+					CONSTAINTS.LOG.info("Page " + (i + 1) + ":\t has found " + list.size() + " records");
 
 					for (WebElement welement : list) {
 						String site = welement.getAttribute("href");
@@ -94,12 +93,12 @@ public class SearchImpl implements Search {
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				ExecuteLOG.error(e.getClass().toString(), e.getMessage());
+				CONSTAINTS.LOG.error(e.getClass().toString(), e.getMessage());
 			}
 
 		}
 
-		ExecuteLOG.info("Number of URLs is " + urlList.size());
+		CONSTAINTS.LOG.info("Number of URLs is " + urlList.size());
 
 		return urlList;
 
@@ -108,15 +107,14 @@ public class SearchImpl implements Search {
 	@Override
 	public List<Customer> getCustomers(List<String> urls) {
 
-		ExecuteLOG.info("Get customers ... ");
+		CONSTAINTS.LOG.info("Get customers ... ");
 		List<Customer> customers = new ArrayList<Customer>();
 
 		for (int i = 0; i < urls.size(); i++) {
-			ExecuteLOG.info("------------------" + i + "--------------------");
+			CONSTAINTS.LOG.info("------------------" + i + "--------------------");
 			String url = urls.get(i);
-			ExecuteLOG.info(url);
+			CONSTAINTS.LOG.info(url);
 			
-			System.out.println("Before get:" + Thread.currentThread().getName());
 			customers.addAll(getCustomerBasedonURL(url));
 		}
 		return customers;
@@ -127,8 +125,7 @@ public class SearchImpl implements Search {
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		driver.get(url);
-		System.out.println("getCustomer: " + Thread.currentThread().getName());
-		/*
+		
 		try {
 			// check in the home page whether there is some Email information
 			String emailXpath = "//*[contains(text(),'Email')]/*"
@@ -170,11 +167,11 @@ public class SearchImpl implements Search {
 			}
 			
 			if (welist.size() == 0) 
-				Result.info("XXXXXX\t" + url);
+				CONSTAINTS.LOG.info("XXXXXX\t" + url);
 			
 			for (int j = 0; j < welist.size(); j++) {
 				String mailbox = welist.get(j).getAttribute("href");
-				Result.info("YYYYYY\t" + mailbox);
+				CONSTAINTS.LOG.info("YYYYYY\t" + mailbox);
 				Customer c = new Customer();
 				c.setCustomerName("j" + j);
 				c.setMailbox(mailbox);
@@ -182,9 +179,9 @@ public class SearchImpl implements Search {
 			}
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			ExecuteLOG.warn("Thread sleeping error.");
+			CONSTAINTS.LOG.warn("Thread sleeping error.");
 		}
-		*/
+		
 		return customers;
 	}
 }

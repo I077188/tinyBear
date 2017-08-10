@@ -24,10 +24,10 @@ public class Inital {
 			FileInputStream inputStream = new FileInputStream(new File("config.properties"));
 			properties.load(inputStream);
 
-			ExecuteLOG.info("Search started...");
-			ExecuteLOG.info(properties.getProperty("countries").toString());
+			CONSTAINTS.LOG.info("Search started...");
+			CONSTAINTS.LOG.info(properties.getProperty("countries").toString());
 		} catch (IOException e) {
-			ExecuteLOG.error(e.getClass().toString(), e.getMessage());
+			CONSTAINTS.LOG.error(e.getClass().toString(), e.getMessage());
 		}
 	}
 
@@ -86,7 +86,7 @@ public class Inital {
 			String firefoxFullPath = (isWin) ? (firefoxPath.replace("\\", "\\\\") + fireFoxExe)
 					: (firefoxPath + fireFoxExe);
 
-			ExecuteLOG.debug(firefoxFullPath);
+			CONSTAINTS.LOG.debug(firefoxFullPath);
 
 			File pathToBinary = null;
 			if (isWin) {

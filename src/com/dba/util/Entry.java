@@ -1,23 +1,21 @@
 package com.dba.util;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.dba.constants.CONSTAINTS;
-import com.dba.data.Customer;
 import com.dba.search.impl.SearchImpl;
 
 public class Entry {
 	public Entry() {
-		ExecuteLOG.info("Loading program...");
+		CONSTAINTS.LOG.info("Loading program...");
 	}
 
 	public static void main(String[] args) {
-
+		
+		
 		CONSTAINTS.inital();
 
-		Result.info("Progress started...");
+		CONSTAINTS.LOG.info("Progress started...");
 
 		/**
 		 * search part result should be the customer set for each customer it
@@ -25,14 +23,16 @@ public class Entry {
 		 */
 		SearchImpl sImpl = new SearchImpl();
 		List<String> customerURLs = sImpl.getCustomersURLs();
-		Set<String> mailBoxes = new HashSet<String>();
-		List<Customer> customers = sImpl.getCustomers(customerURLs);
+//		Set<String> mailBoxes = new HashSet<String>();
+//		List<Customer> customers = 
+		sImpl.getCustomers(customerURLs);
 
-		/*
-		 * for (int i = 0; i < customers.size(); i++) { String customerName =
-		 * customers.get(i).getCustomerName(); String customerMail =
-		 * customers.get(i).getMailbox(); }
-		 */
+		
+		/*for (int i = 0; i < customers.size(); i++) { 
+			String customerName = customers.get(i).getCustomerName();
+			String customerMail = customers.get(i).getMailbox(); 
+		}*/
+		 
 
 		/*
 		 * 
