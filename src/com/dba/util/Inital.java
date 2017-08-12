@@ -63,8 +63,7 @@ public class Inital {
 		String osType = System.getProperty("os.name");
 		boolean isWin = osType.toLowerCase().startsWith("windows");
 
-		String requireFilePath = "." + CONSTAINTS.separator + "src" + CONSTAINTS.separator + "com"
-				+ CONSTAINTS.separator + "dba" + CONSTAINTS.separator + "requireFile" + CONSTAINTS.separator;
+		String requireFilePath = System.getProperty("user.dir") + CONSTAINTS.separator + "drivers" + CONSTAINTS.separator;
 		// required file path
 		String geckoDriver = (isWin) ? "geckodriver.exe" : "geckodriver";
 		String chromeDriver = (isWin) ? "chromedriver.exe" : "chromedriver";

@@ -1,8 +1,10 @@
 package com.dba.data;
 
-import javax.mail.*;
+//import javax.mail.*;
 
-public class MyAuthenticator extends Authenticator {
+public class MyAuthenticator 
+//extends Authenticator 
+{
 	String userName = null;
 	String password = null;
 
@@ -14,7 +16,7 @@ public class MyAuthenticator extends Authenticator {
 		this.password = password;
 	}
 
-	protected PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(userName, password);
-	}
+//	protected PasswordAuthentication getPasswordAuthentication() {
+//		return new PasswordAuthentication(userName, password);
+//	}
 }

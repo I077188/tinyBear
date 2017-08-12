@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: com.dba.util.Entry
+Class-Path: lib/selenium-server-standalone-3.4.0.jar lib/log4j-api-2.3.jar lib/log4j-core-2.3.jar 

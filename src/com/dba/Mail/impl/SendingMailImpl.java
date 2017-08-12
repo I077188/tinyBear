@@ -1,27 +1,19 @@
 package com.dba.Mail.impl;
 
 import java.util.List;
-import java.util.Properties;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import com.dba.Mail.SendingMail;
-import com.dba.constants.CONSTAINTS;
 import com.dba.data.Customer;
-import com.dba.data.MailSenderInfo;
-import com.dba.data.MyAuthenticator;
 
 public class SendingMailImpl implements SendingMail {
 
+	@Override
 	public void sendingMailtoCustomers(List<Customer> customers) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*public void sendingMailtoCustomers(List<Customer> customers) {
 		for (Customer customer : customers) {
 
 			// connect email
@@ -80,5 +72,5 @@ public class SendingMailImpl implements SendingMail {
 		} catch (MessagingException ex) {
 			ex.printStackTrace();
 		}
-	}
+	}*/
 }

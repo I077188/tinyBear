@@ -6,7 +6,7 @@
 		</Console>
 		
 		<RollingFile name="CONSTAINTS" fileName="log/CONSTAINTS.log"
-			filePattern="log/$${date:yyyy-MM}/log/CONSTAINTS.log" append="true">
+			filePattern="log/$${date:yyyy-MM}/CONSTAINTS.log" append="true">
 			<ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY" />
 			<PatternLayout pattern="[%d{HH:mm:ss:SSS}]  %m%n" />
 			<Policies>
@@ -22,7 +22,6 @@
 		<Root level="all">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="CONSTAINTS"/>
-			
 		</Root>
 	</Loggers>
 </Configuration>
