@@ -6,19 +6,24 @@
 		</Console>
 		
 		<RollingFile name="CONSTAINTS" fileName="log/CONSTAINTS.log"
-			filePattern="log/$${date:yyyy-MM}/CONSTAINTS.log" append="true">
-			<ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY" />
+			filePattern="log/$${date:yyyy-MM}/CONSTAINTS-%d{yyyy-MM-dd}-%i.log" append="true">
+			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
 			<PatternLayout pattern="[%d{HH:mm:ss:SSS}]  %m%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="10 MB" />
 			</Policies>
-			<DefaultRolloverStrategy max="1" />
+			<DefaultRolloverStrategy max="20" />
 		</RollingFile>
 
 	</Appenders>
 	
 	<Loggers>
+	<!-- 
+		<Logger name="com.dba.constants.CONSTAINTS" level="all" additivity="false">
+			<AppenderRef ref="CONSTAINTS" />
+		</Logger>
+	 -->
 		<Root level="all">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="CONSTAINTS"/>
