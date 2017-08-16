@@ -25,6 +25,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.dba.constants.CONSTAINTS;
+
 public class DriverHelper {
 
 	private static int TIMEOUT = 15;
@@ -595,6 +597,29 @@ public class DriverHelper {
 			alert.accept();
 		} catch (Exception e) {
 			// exception handling
+		}
+	}
+	
+	public static void waitPageFullyLoad(WebDriver driver) {
+
+		JavascriptExecutor jsExe = (JavascriptExecutor) driver;
+
+		// Initially bellow given if condition will check ready state of page.
+		if (jsExe.executeScript("return document.readyState").toString().equals("complete")) {
+			CONSTAINTS.LOG.info("Page Is loaded.");
+			return;
+		}
+
+		for (int i = 0; i < CONSTAINTS.waitTime; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				break;
+			}
+			// To check page ready state.
+			if (jsExe.executeScript("return document.readyState").toString().equals("complete")) {
+				return;
+			}
 		}
 	}
 

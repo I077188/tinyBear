@@ -125,9 +125,11 @@ public class SearchImpl implements Search {
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		driver.get(url);
+		DriverHelper.waitPageFullyLoad(driver);
 		
 		try {
 			// check in the home page whether there is some Email information
+			CONSTAINTS.LOG.debug("Find in Current Page!");
 			String emailXpath = "//*[contains(text(),'Email')]/*"
 								+ "|//*[contains(text(),'email')]/*"
 								+ "|//*[contains(text(),'E-mail')]/*"
@@ -141,43 +143,77 @@ public class SearchImpl implements Search {
 
 			List<WebElement> welist = driver.findElements(By.xpath(emailXpath));
 			
-			// if not find whether have contact
-			if ((welist == null) ||(welist.size() == 0)) { 
-				List<WebElement> temptList = new ArrayList<WebElement>();
-				String contactAboutXpath = "//*[contains(text(),'contact')]"
-										+ "|//*[contains(text(),'Contact')]"
-										+ "|//*[contains(text(),'About')]";
-				 List<WebElement> welistContacts = driver.findElements(By.xpath(contactAboutXpath));
-				
-				 
-				 if (welistContacts.size() > 0) { 
-					 for (int j = 0; j < welistContacts.size(); j++) {
-						 try { 
-							 welistContacts.get(j).click();
-							 Thread.sleep(3000);
+			if ((welist != null) & (welist.size() > 0)) {
+				for (int j = 0; j < welist.size(); j++) {
+					String mailbox = welist.get(j).getAttribute("href");
+					if ((mailbox != null) && !mailbox.equals("") && (mailbox.indexOf("@") > 0)) {
+						CONSTAINTS.LOG.info("YYYYYY\t" + mailbox);
+						Customer c = new Customer();
+						c.setCustomerName("j" + j);
+						c.setMailbox(mailbox);
+						customers.add(c);
+					} 
+				}
+			}
+			
+			// find all contact and about
+			CONSTAINTS.LOG.debug("Find in Contact or About Page!");
+			List<WebElement> temptList = new ArrayList<WebElement>();
+			String contactAboutXpath = "//*[contains(text(),'contact')]" + "|//*[contains(text(),'Contact')]" + "|//*[contains(text(),'CONTACT')]"
+					+ "|//*[contains(text(),'About')]";
+			List<WebElement> welistContacts = driver.findElements(By.xpath(contactAboutXpath));
+
+			if (welistContacts.size() > 0) {
+				for (int j = 0; j < welistContacts.size(); j++) {
+					try {
+						WebElement element = welistContacts.get(j);
+						String href;
+						
+						// if href is link to other page
+						try {
+							href = element.getAttribute("href");
+						} catch (Exception e) {
+							continue;
+						}
+						if (href.indexOf("@") > 0) {
+							temptList.add(element);
+						} else {
+							element.click();
+							DriverHelper.waitPageFullyLoad(driver);
+							CONSTAINTS.LOG.info("Contact URL:\t" + driver.getCurrentUrl());
+							
 							// in the content page check the Email information
-							 List<WebElement> welistContact = driver.findElements(By.xpath(emailXpath));
-							 temptList.addAll(welistContact);
-						 } catch (Exception e) {
-							 continue; 
-						 }
-					 }
-					 welist = temptList;
-				 }
+							List<WebElement> welistContact = driver.findElements(By.xpath(emailXpath));
+							temptList.addAll(welistContact);
+						}
+						Thread.sleep(3000);
+					} catch (Exception e) {
+						continue;
+					}
+				}
+				welist = temptList;
 			}
-			
-			if (welist.size() == 0) 
+
+			if (welist.size() == 0) {
 				CONSTAINTS.LOG.info("XXXXXX\t" + url);
-			
-			for (int j = 0; j < welist.size(); j++) {
-				String mailbox = welist.get(j).getAttribute("href");
-				CONSTAINTS.LOG.info("YYYYYY\t" + mailbox);
-				Customer c = new Customer();
-				c.setCustomerName("j" + j);
-				c.setMailbox(mailbox);
-				customers.add(c);
+			} else {
+				for (int j = 0; j < welist.size(); j++) {
+					String mailbox = "";
+					try {
+						mailbox = welist.get(j).getAttribute("href");
+					} catch (Exception e) {
+						continue;
+					}
+					if ((mailbox != null) && !mailbox.equals("") && (mailbox.indexOf("@") > 0)) {
+						CONSTAINTS.LOG.info("YYYYYY\t" + mailbox);
+						Customer c = new Customer();
+						c.setCustomerName("j" + j);
+						c.setMailbox(mailbox);
+						customers.add(c);
+					} 
+				}
 			}
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			CONSTAINTS.LOG.warn("Thread sleeping error.");
 		}

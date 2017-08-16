@@ -11,8 +11,7 @@ public class Entry {
 	}
 
 	public static void main(String[] args) {
-		
-		
+
 		CONSTAINTS.inital();
 
 		CONSTAINTS.LOG.info("Progress started...");
@@ -23,16 +22,15 @@ public class Entry {
 		 */
 		SearchImpl sImpl = new SearchImpl();
 		List<String> customerURLs = sImpl.getCustomersURLs();
-//		Set<String> mailBoxes = new HashSet<String>();
-//		List<Customer> customers = 
+		// Set<String> mailBoxes = new HashSet<String>();
+		// List<Customer> customers =
 		sImpl.getCustomers(customerURLs);
 
-		
-		/*for (int i = 0; i < customers.size(); i++) { 
-			String customerName = customers.get(i).getCustomerName();
-			String customerMail = customers.get(i).getMailbox(); 
-		}*/
-		 
+		/*
+		 * for (int i = 0; i < customers.size(); i++) { String customerName =
+		 * customers.get(i).getCustomerName(); String customerMail =
+		 * customers.get(i).getMailbox(); }
+		 */
 
 		/*
 		 * 

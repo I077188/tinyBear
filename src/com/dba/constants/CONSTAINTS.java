@@ -28,6 +28,7 @@ public class CONSTAINTS {
 	public static String currentPath = System.getProperty("user.dir");
 	public static File executeLogFile;
 	public static File resultLogFile;
+	public static int waitTime;
 
 	// log part
 	private static BufferedWriter exeBWriter;
@@ -47,25 +48,43 @@ public class CONSTAINTS {
 		driver.manage().window().maximize();
 		page = inital.initialpage();
 		searchEngine = inital.initialEngine();
+		waitTime = inital.initialWaitTime();
 
 		senderUserName = inital.initialSenderName();
 		senderUserMail = inital.initialSenderMail();
 		senderUserPass = inital.initialSenderPass();
 		senderUserSmtpHost = inital.initialSenderSmtpHost();
 		senderUserSmtpPort = inital.initialSenderSmtpPort();
-
 		mailTitle = inital.initialMailTitle();
 
 	}
 
 	public static void close() {
+		
 		try {
-			exeBWriter.close();
-			resultBWriter.close();
-			exeFw.close();
-			exeOut.close();
-			resultFw.close();
-			resultOut.close();
+			if (driver!= null) {
+				driver.close();
+			}
+			if (exeBWriter!= null) {
+				exeBWriter.close();
+			}
+			if (resultBWriter!= null) {
+				resultBWriter.close();
+			}
+			if (exeFw!= null) {
+				exeFw.close();
+			}
+			if (exeOut!= null) {
+				exeOut.close();
+			}
+			if (resultFw!= null) {
+				resultFw.close();
+			}
+			if (resultOut!= null) {
+				resultOut.close();
+			}
+			
+			CONSTAINTS.LOG.info("Searching finished!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

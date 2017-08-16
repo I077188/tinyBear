@@ -144,4 +144,10 @@ public class Inital {
 		return properties.getProperty("mailTitle");
 	}
 
+	public int initialWaitTime() {
+		if (properties == null)
+			return 0;
+		return Integer.valueOf(properties.getProperty("WaitingTime"));
+	}
+
 }
